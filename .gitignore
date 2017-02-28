@@ -1,0 +1,5 @@
+*.ipynb
+.ipynb*
+result_model
+.DS_Store
+.idea
