@@ -51,7 +51,7 @@ def get_generator(x, time_steps, batch_size):
 
 def get_model(output_dim, input_dim, hidden_sz, dropout_r, optimization):
     model = Sequential()
-    model.add(SimpleRNN(hidden_sz, input_dim=input_dim, return_sequences=True))
+    model.add(SimpleRNN(hidden_sz, input_dim=input_dim, return_sequences=True, dropout_W=0.2, dropout_U=0.2))
     # model.add(LSTM(hidden_sz, input_dim=input_dim, return_sequences=True))
     if dropout_r:
         model.add(Dropout(dropout_r))
