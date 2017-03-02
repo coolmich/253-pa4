@@ -51,7 +51,7 @@ def get_generator(x, time_steps, batch_size):
 
 def get_model(output_dim, input_dim, hidden_sz, dropout_r, optimization):
     model = Sequential()
-    model.add(SimpleRNN(hidden_sz, input_dim=input_dim, return_sequences=True, dropout_W=0.2, dropout_U=0.2))
+    model.add(SimpleRNN(hidden_sz, input_dim=input_dim, return_sequences=True))
     # model.add(LSTM(hidden_sz, input_dim=input_dim, return_sequences=True))
     if dropout_r:
         model.add(Dropout(dropout_r))
@@ -93,7 +93,8 @@ if __name__ == '__main__':
             pk.dump(history.history, open('result_model/history_t{}_h{}_d{}_o{}'.format(time_steps, hidden_sz, dropout_rate, optimization), 'wb'))
             raise KeyboardInterrupt
         except KeyboardInterrupt:
-            if raw_input("Continue training by increasing time steps? y/n\n".strip()) == 'n': break
-            time_steps = int(raw_input('New time step(slightly bigger): \n').strip())
+            # if raw_input("Continue training by increasing time steps? y/n\n".strip()) == 'n': break
+            # time_steps = int(raw_input('New time step(slightly bigger): \n').strip())
+            time_steps += 5
     # sample_music = ''.join(open('data/sample-music1.txt').readlines())#.replace('\r','')
     # print generate_music('result_model0/model_t25_h100_d0.0_ormsprop', sample_music[:30], i2c, c2i)
