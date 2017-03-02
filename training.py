@@ -80,20 +80,20 @@ if __name__ == '__main__':
     optimization = 'rmsprop'
     x, i2c, c2i = get_data('data/input.txt')
     print 'Finish getting data'
-    # model = get_model(len(i2c), len(i2c), hidden_sz, dropout_rate, optimization)
-    # while True:
-    #     try:
-    #         callbacks = [
-    #             EarlyStopping(monitor='val_acc', min_delta=0.0001, verbose=1, patience=2),
-    #             ModelCheckpoint('result_model/model_t{}_h{}_d{}_o{}'.format(time_steps, hidden_sz, dropout_rate, optimization),
-    #                             monitor='val_acc', verbose=1, save_best_only=True, save_weights_only=False, mode='max', period=1)
-    #         ]
-    #         train, val = get_generator(x, time_steps, batch_size)
-    #         history = model.fit_generator(train, train.length(), 100, validation_data=val, nb_val_samples=val.length(), callbacks=callbacks)
-    #         pk.dump(history.history, open('result_model/history_t{}_h{}_d{}_o{}'.format(time_steps, hidden_sz, dropout_rate, optimization), 'wb'))
-    #         raise KeyboardInterrupt
-    #     except KeyboardInterrupt:
-    #         if raw_input("Continue training by increasing time steps? y/n\n".strip()) == 'n': break
-    #         time_steps = int(raw_input('New time step(slightly bigger): \n').strip())
-    sample_music = ''.join(open('data/sample-music.txt').readlines())#.replace('\r','')
-    print generate_music('result_model0/model_t25_h100_d0.0_ormsprop', sample_music[:30], i2c, c2i)
+    model = get_model(len(i2c), len(i2c), hidden_sz, dropout_rate, optimization)
+    while True:
+        try:
+            callbacks = [
+                EarlyStopping(monitor='val_acc', min_delta=0.0001, verbose=1, patience=2),
+                ModelCheckpoint('result_model/model_t{}_h{}_d{}_o{}'.format(time_steps, hidden_sz, dropout_rate, optimization),
+                                monitor='val_acc', verbose=1, save_best_only=True, save_weights_only=False, mode='max', period=1)
+            ]
+            train, val = get_generator(x, time_steps, batch_size)
+            history = model.fit_generator(train, train.length(), 100, validation_data=val, nb_val_samples=val.length(), callbacks=callbacks)
+            pk.dump(history.history, open('result_model/history_t{}_h{}_d{}_o{}'.format(time_steps, hidden_sz, dropout_rate, optimization), 'wb'))
+            raise KeyboardInterrupt
+        except KeyboardInterrupt:
+            if raw_input("Continue training by increasing time steps? y/n\n".strip()) == 'n': break
+            time_steps = int(raw_input('New time step(slightly bigger): \n').strip())
+    # sample_music = ''.join(open('data/sample-music1.txt').readlines())#.replace('\r','')
+    # print generate_music('result_model0/model_t25_h100_d0.0_ormsprop', sample_music[:30], i2c, c2i)
